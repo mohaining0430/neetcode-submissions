@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int numDecodings(string s) {
+        int len = s.size();
+        vector<int> dp(len + 1, 0);         
+        dp[len] = 1;
+        dp[len - 1] = s[len - 1] == '0' ? 0 : 1;
+        for (int i = len - 2; i >= 0; --i) {
+            if (s[i] == '0') {
+                dp[i] = 0;
+            } else if (s[i] == '1') {
+                dp[i] = dp[i + 1] + dp[i + 2];
+            } else if (s[i] == '2') {
+                if (s[i + 1] >= '0' && s[i + 1] <= '6') {
+                    dp[i] = dp[i + 1] + dp[i + 2];;
+                } else {
+                    dp[i] = dp[i + 1];
+                }
+            } else {
+                dp[i] = dp[i + 1];
+            }
+        }
+        return dp[0];
+    }
+};
